@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        .box {
+            width: 700px;
+            height: 400px;
+            margin: 100px;
+            position: relative;
+            border: 1px solid red;
+        }
+        ul {
+            width: 240px;
+        }
+        li {
+            position: absolute;
+            cursor: pointer;
+            height: 78px;
+            width: 238px;
+            border: 1px solid yellowgreen;
+            text-align: center;
+            line-height: 80px;
+        }
+        .box2 {
+            position: absolute;
+            right: 0;
+            top: 0 ;
+            width: 458px;
+            height: 400px;
+            font-size: 100px;
+            text-align: center;
+            line-height: 400px;
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <div id="box" class="box">
+        <ul>
+            <li style="background-color: pink;top:0px">商品1</li>
+            <li style="background-color: skyblue;top:80px">商品2</li>
+            <li style="background-color: red;top:160px">商品3</li>
+            <li style="background-color: blue;top:240px">商品4</li>
+            <li style="background-color: orange;top:320px">商品5</li>
+        </ul>
+        <div id="box2" class="box2">
+            商品1
+        </div>
+    </div>
+
+
+    <script>
+
+        //获取元素
+        var liArr = document.getElementsByTagName("li");
+        var box = document.getElementById("box");
+        console.log(box);
+        var ul = document.getElementsByTagName("ul")[0];
+        var box2 = document.getElementById("box2");
+        var index = 1;
+        var y;
+        var aaa;
+        for(var i=0;i<liArr.length;i++){
+            //自定义属性
+            liArr[i].index = i;
+            //按下触发
+            liArr[i].onmousedown = function (event) {
+                event = event || window.event;
+                var pagey = event.pageY || document.documentElement.scrollTop;
+                var boxy = this.offsetTop;
+                var yy = pagey - boxy;
+                aaa = this;
+                index++;
+                //按下并且移动时触发
+                document.onmousemove = function (event) {
+                    event = event || window.event;
+                    var pagey = event.pageY || document.documentElement.scrollTop;
+//                    var boxy = box.offsetTop;
+                    y = pagey-yy;
+                    if(y<0){
+                        y = 0;
+                    }
+                    if(y>400){
+                        y =400;
+                    }
+                    aaa.style.zIndex = index;
+                    aaa.style.top = y + "px";
+
+                    window.getSelection?window.getSelection().removeAllRanges():document.selection.empty();
+                }
+            }
+            	//鼠标松开
+            document.onmouseup = function () {
+                //清除鼠标移动
+                document.onmousemove = null;
+                
+                if(y<40){
+                    ul.insertBefore(aaa,ul.children[0]);
+                }else if(y<=80){
+                    ul.insertBefore(aaa,ul.children[1]);
+                }else if(y<=160){
+                    ul.insertBefore(aaa,ul.children[2]);
+                }else if(y<=240){
+                    ul.insertBefore(aaa,ul.children[3]);
+                }else if(y<=320){
+                    ul.insertBefore(aaa,ul.children[4]);
+                }else if(y<=400){
+                    ul.insertBefore(aaa,ul.children[5]);
+                }
+
+                for(var i=0;i<liArr.length;i++){
+                    liArr[i].style.top = i*80+"px";
+                }
+                
+                box2.innerHTML = aaa.innerHTML;
+            }
+        }
+
+
+
+    </script>
+
+
+</body>
+</html>
