@@ -9,10 +9,15 @@
             margin: 0;
             list-style: none;
         }
+        h1{
+        	position: absolute;
+        	left: 40%;
+        	top:4%;
+        }
         .box {
             width: 700px;
             height: 400px;
-            margin: 100px;
+            margin: 100px auto;
             position: relative;
             border: 1px solid red;
         }
@@ -42,8 +47,9 @@
     </style>
 </head>
 <body>
-	<h1>自定义排序的tab</h1>
+	<h1>拖动排序的tab</h1>
     <div id="box" class="box">
+
         <ul>
             <li style="background-color: pink;top:0px">商品1</li>
             <li style="background-color: skyblue;top:80px">商品2</li>
@@ -67,7 +73,7 @@
         var box2 = document.getElementById("box2");
         var index = 1;
         var y;
-        var aaa;
+        var _this;
         for(var i=0;i<liArr.length;i++){
             //自定义属性
             liArr[i].index = i;
@@ -77,7 +83,7 @@
                 var pagey = event.pageY || document.documentElement.scrollTop;
                 var boxy = this.offsetTop;
                 var yy = pagey - boxy;
-                aaa = this;
+                _this = this;
                 index++;
                 //按下并且移动时触发
                 document.onmousemove = function (event) {
@@ -91,8 +97,8 @@
                     if(y>400){
                         y =400;
                     }
-                    aaa.style.zIndex = index;
-                    aaa.style.top = y + "px";
+                    _this.style.zIndex = index;
+                    _this.style.top = y + "px";
 
                     window.getSelection?window.getSelection().removeAllRanges():document.selection.empty();
                 }
@@ -103,24 +109,24 @@
                 document.onmousemove = null;
                 
                 if(y<40){
-                    ul.insertBefore(aaa,ul.children[0]);
+                    ul.insertBefore(_this,ul.children[0]);
                 }else if(y<=80){
-                    ul.insertBefore(aaa,ul.children[1]);
+                    ul.insertBefore(_this,ul.children[1]);
                 }else if(y<=160){
-                    ul.insertBefore(aaa,ul.children[2]);
+                    ul.insertBefore(_this,ul.children[2]);
                 }else if(y<=240){
-                    ul.insertBefore(aaa,ul.children[3]);
+                    ul.insertBefore(_this,ul.children[3]);
                 }else if(y<=320){
-                    ul.insertBefore(aaa,ul.children[4]);
+                    ul.insertBefore(_this,ul.children[4]);
                 }else if(y<=400){
-                    ul.insertBefore(aaa,ul.children[5]);
+                    ul.insertBefore(_this,ul.children[5]);
                 }
 
                 for(var i=0;i<liArr.length;i++){
                     liArr[i].style.top = i*80+"px";
                 }
                 
-                box2.innerHTML = aaa.innerHTML;
+                box2.innerHTML = _this.innerHTML;
             }
         }
 
